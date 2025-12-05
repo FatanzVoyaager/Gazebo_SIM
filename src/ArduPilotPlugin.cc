@@ -99,10 +99,10 @@ struct fdmPacket
 
   /// \brief Battery Current.
   double battery_current = 0.0;
-
+*/
   /// \brief Model rangefinder value. Default to -1 to use sitl rangefinder.
   double rangefinder = -1.0;
-*/
+
 };
 
 /// \brief Control class
@@ -423,7 +423,7 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   else if (_sdf->HasElement("rotor"))
   {
     gzwarn << "[" << this->dataPtr->modelName << "] "
-           << "please deprecate <rotor> block, use <control> block instead.\n";
+          << "please deprecate <rotor> block, use <control> block instead.\n";
     controlSDF = _sdf->GetElement("rotor");
   }
 
@@ -439,16 +439,16 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     else if (controlSDF->HasAttribute("id"))
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             <<  "please deprecate attribute id, use channel instead.\n";
+            <<  "please deprecate attribute id, use channel instead.\n";
       control.channel =
         atoi(controlSDF->GetAttribute("id")->GetAsString().c_str());
     }
     else
     {
       control.channel = this->dataPtr->controls.size();
-      gzwarn << "[" << this->dataPtr->modelName << "] "
-             <<  "id/channel attribute not specified, use order parsed ["
-             << control.channel << "].\n";
+    gzwarn << "[" << this->dataPtr->modelName << "] "
+            <<  "id/channel attribute not specified, use order parsed ["
+            << control.channel << "].\n";
     }
 
     if (controlSDF->HasElement("type"))
@@ -468,9 +468,9 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
         control.type != "EFFORT")
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "Control type [" << control.type
-             << "] not recognized, must be one of VELOCITY, POSITION, EFFORT."
-             << " default to VELOCITY.\n";
+            << "Control type [" << control.type
+            << "] not recognized, must be one of VELOCITY, POSITION, EFFORT."
+            << " default to VELOCITY.\n";
       control.type = "VELOCITY";
     }
 
@@ -508,8 +508,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     else if (controlSDF->HasElement("turningDirection"))
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "<turningDirection> is deprecated. Please use"
-             << " <multiplier>. Map 'cw' to '-1' and 'ccw' to '1'.\n";
+            << "<turningDirection> is deprecated. Please use"
+            << " <multiplier>. Map 'cw' to '-1' and 'ccw' to '1'.\n";
       std::string turningDirection = controlSDF->Get<std::string>(
           "turningDirection");
       // special cases mimic from controls_gazebo_plugins
@@ -553,9 +553,9 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (ignition::math::equal(control.rotorVelocitySlowdownSim, 0.0))
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "control for joint [" << control.jointName
-             << "] rotorVelocitySlowdownSim is zero,"
-             << " assume no slowdown.\n";
+            << "control for joint [" << control.jointName
+            << "] rotorVelocitySlowdownSim is zero,"
+            << " assume no slowdown.\n";
       control.rotorVelocitySlowdownSim = 1.0;
     }
 
@@ -632,11 +632,15 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   std::vector<std::string> imuScopedName =
     this->dataPtr->model->SensorScopedName(imuName);
 
+  // ChatGPT
+  // std::vector<std::string> imuScopedName;
+  // imuScopedName.push_back(this->dataPtr->model->GetScopedName() + "::" + imuName);
+
   if (imuScopedName.size() > 1)
   {
     gzwarn << "[" << this->dataPtr->modelName << "] "
-           << "multiple names match [" << imuName << "] using first found"
-           << " name.\n";
+          << "multiple names match [" << imuName << "] using first found"
+          << " name.\n";
     for (unsigned k = 0; k < imuScopedName.size(); ++k)
     {
       gzwarn << "  sensor " << k << " [" << imuScopedName[k] << "].\n";
@@ -654,8 +658,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (imuScopedName.size() > 1)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "first imu_sensor scoped name [" << imuScopedName[0]
-             << "] not found, trying the rest of the sensor names.\n";
+            << "first imu_sensor scoped name [" << imuScopedName[0]
+            << "] not found, trying the rest of the sensor names.\n";
       for (unsigned k = 1; k < imuScopedName.size(); ++k)
       {
         this->dataPtr->imuSensor = std::dynamic_pointer_cast<sensors::ImuSensor>
@@ -671,8 +675,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (!this->dataPtr->imuSensor)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "imu_sensor scoped name [" << imuName
-             << "] not found, trying unscoped name.\n" << "\n";
+            << "imu_sensor scoped name [" << imuName
+            << "] not found, trying unscoped name.\n" << "\n";
       // TODO: this fails for multi-nested models.
       // TODO: and transforms fail for rotated nested model,
       //       joints point the wrong way.
@@ -695,8 +699,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
   if (gpsScopedName.size() > 1)
   {
     gzwarn << "[" << this->dataPtr->modelName << "] "
-           << "multiple names match [" << gpsName << "] using first found"
-           << " name.\n";
+          << "multiple names match [" << gpsName << "] using first found"
+          << " name.\n";
     for (unsigned k = 0; k < gpsScopedName.size(); ++k)
     {
       gzwarn << "  sensor " << k << " [" << gpsScopedName[k] << "].\n";
@@ -714,8 +718,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (gpsScopedName.size() > 1)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "first gps_sensor scoped name [" << gpsScopedName[0]
-             << "] not found, trying the rest of the sensor names.\n";
+            << "first gps_sensor scoped name [" << gpsScopedName[0]
+            << "] not found, trying the rest of the sensor names.\n";
       for (unsigned k = 1; k < gpsScopedName.size(); ++k)
       {
         this->dataPtr->gpsSensor = std::dynamic_pointer_cast<sensors::GpsSensor>
@@ -731,8 +735,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (!this->dataPtr->gpsSensor)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "gps_sensor scoped name [" << gpsName
-             << "] not found, trying unscoped name.\n" << "\n";
+            << "gps_sensor scoped name [" << gpsName
+            << "] not found, trying unscoped name.\n" << "\n";
       this->dataPtr->gpsSensor = std::dynamic_pointer_cast<sensors::GpsSensor>
         (sensors::SensorManager::Instance()->GetSensor(gpsName));
     }
@@ -740,26 +744,31 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (!this->dataPtr->gpsSensor)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "gps [" << gpsName
-             << "] not found, skipping gps support.\n" << "\n";
+            << "gps [" << gpsName
+            << "] not found, skipping gps support.\n" << "\n";
     }
     else
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "  found "  << " [" << gpsName << "].\n";
+            << "  found "  << " [" << gpsName << "].\n";
     }
   }
-
+*/
   // Get Rangefinder
   // TODO add sonar
   std::string rangefinderName = _sdf->Get("rangefinderName",
     static_cast<std::string>("rangefinder_sensor")).first;
-  std::vector<std::string> rangefinderScopedName = SensorScopedName(this->dataPtr->model, rangefinderName);
+  // std::vector<std::string> rangefinderScopedName = SensorScopedName(this->dataPtr->model, rangefinderName);
+  
+  // ChatGPT
+  std::vector<std::string> rangefinderScopedName;
+  rangefinderScopedName.push_back(this->dataPtr->model->GetScopedName() + "::" + rangefinderName);
+  
   if (rangefinderScopedName.size() > 1)
   {
     gzwarn << "[" << this->dataPtr->modelName << "] "
-           << "multiple names match [" << rangefinderName << "] using first found"
-           << " name.\n";
+          << "multiple names match [" << rangefinderName << "] using first found"
+          << " name.\n";
     for (unsigned k = 0; k < rangefinderScopedName.size(); ++k)
     {
       gzwarn << "  sensor " << k << " [" << rangefinderScopedName[k] << "].\n";
@@ -777,8 +786,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (rangefinderScopedName.size() > 1)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "first rangefinder_sensor scoped name [" << rangefinderScopedName[0]
-             << "] not found, trying the rest of the sensor names.\n";
+            << "first rangefinder_sensor scoped name [" << rangefinderScopedName[0]
+            << "] not found, trying the rest of the sensor names.\n";
       for (unsigned k = 1; k < rangefinderScopedName.size(); ++k)
       {
         this->dataPtr->rangefinderSensor = std::dynamic_pointer_cast<sensors::RaySensor>
@@ -794,8 +803,8 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (!this->dataPtr->rangefinderSensor)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "rangefinder_sensor scoped name [" << rangefinderName
-             << "] not found, trying unscoped name.\n" << "\n";
+            << "rangefinder_sensor scoped name [" << rangefinderName
+            << "] not found, trying unscoped name.\n" << "\n";
       /// TODO: this fails for multi-nested models.
       /// TODO: and transforms fail for rotated nested model,
       ///       joints point the wrong way.
@@ -805,16 +814,16 @@ void ArduPilotPlugin::Load(physics::ModelPtr _model, sdf::ElementPtr _sdf)
     if (!this->dataPtr->rangefinderSensor)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "ranfinder [" << rangefinderName
-             << "] not found, skipping rangefinder support.\n" << "\n";
+            << "ranfinder [" << rangefinderName
+            << "] not found, skipping rangefinder support.\n" << "\n";
     }
     else
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "  found "  << " [" << rangefinderName << "].\n";
+            << "  found "  << " [" << rangefinderName << "].\n";
     }
   }
-*/
+
   // Controller time control.
   this->dataPtr->lastControllerUpdateTime = 0;
 
@@ -1020,17 +1029,17 @@ void ArduPilotPlugin::ReceiveMotorCommand()
     if (this->dataPtr->arduPilotOnline)
     {
       gzwarn << "[" << this->dataPtr->modelName << "] "
-             << "Broken ArduPilot connection, count ["
-             << this->dataPtr->connectionTimeoutCount
-             << "/" << this->dataPtr->connectionTimeoutMaxCount
-             << "]\n";
+            << "Broken ArduPilot connection, count ["
+            << this->dataPtr->connectionTimeoutCount
+            << "/" << this->dataPtr->connectionTimeoutMaxCount
+            << "]\n";
       if (++this->dataPtr->connectionTimeoutCount >
         this->dataPtr->connectionTimeoutMaxCount)
       {
         this->dataPtr->connectionTimeoutCount = 0;
         this->dataPtr->arduPilotOnline = false;
         gzwarn << "[" << this->dataPtr->modelName << "] "
-               << "Broken ArduPilot connection, resetting motor control.\n";
+              << "Broken ArduPilot connection, resetting motor control.\n";
         this->ResetPIDs();
       }
     }
@@ -1208,7 +1217,7 @@ void ArduPilotPlugin::SendState() const
         pkt.latitude = this->dataPtr->gpsSensor->Latitude().Degree();
         pkt.altitude = this->dataPtr->gpsSensor->Altitude();
     }
-
+*/
     // TODO : make generic enough to accept sonar/gpuray etc. too
     if (!this->dataPtr->rangefinderSensor)
     {
@@ -1221,6 +1230,6 @@ void ArduPilotPlugin::SendState() const
 
   // airspeed :     wind = Vector3(environment.wind.x, environment.wind.y, environment.wind.z)
    // pkt.airspeed = (pkt.velocity - wind).length()
-*/
+
   this->dataPtr->socket_out.Send(&pkt, sizeof(pkt));
 }
