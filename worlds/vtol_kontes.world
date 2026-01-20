@@ -1068,8 +1068,8 @@
       <link name="rplidar">
         <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
           <robotNamespace>/rplidar</robotNamespace>
-          <topicName>/rplidar/scan</topicName>
-          <frameName>laser</frameName>
+          <topicName>scan</topicName>
+          <frameName>rplidar</frameName>
         </plugin>        
       </link>
     </model>
@@ -1078,18 +1078,18 @@
     <model name="tflidar">
       <static>true</static>
       <link name="rangefinder">
-        <!-- <pose>0.1 -0.15 0.18 0 1.5708 0</pose> -->
         <!-- <plugin name="gazebo_ros_api_plugin" filename="libgazebo_ros_api_plugin.so"> -->
         <plugin name="gazebo_ros_range" filename="libgazebo_ros_range.so">
           <gaussianNoise>0.005</gaussianNoise>
           <alwaysOn>true</alwaysOn>
           <updateRate>50</updateRate>
           <robotNamespace>/rangefinder</robotNamespace>
-          <topicName>/mavros/rangefinder/rangefinder</topicName>
-          <rangefinderName>rangefinder_sensor</rangefinderName>
-          <frameName>range_link</frameName>
+          <!-- <topicName>/mavros/rangefinder/rangefinder</topicName> -->
+          <topicName>/mavros/distance_sensor/rangefinder</topicName>
+          <rangefinderName>rangefinder</rangefinderName>
+          <frameName>rangefinder</frameName>
           <radiation>INFRARED</radiation>
-          <fov>0.2967</fov>
+          <!-- <fov>0.2967</fov> -->
         </plugin>
       </link>
     </model>
