@@ -1069,7 +1069,7 @@
         <plugin name="gazebo_ros_laser" filename="libgazebo_ros_laser.so">
           <robotNamespace>/rplidar</robotNamespace>
           <topicName>scan</topicName>
-          <frameName>rplidar</frameName>
+          <frameName>laser</frameName>
         </plugin>        
       </link>
     </model>
@@ -1084,12 +1084,13 @@
           <alwaysOn>true</alwaysOn>
           <updateRate>50</updateRate>
           <robotNamespace>/rangefinder</robotNamespace>
-          <!-- <topicName>/mavros/rangefinder/rangefinder</topicName> -->
-          <topicName>/mavros/distance_sensor/rangefinder</topicName>
-          <rangefinderName>rangefinder</rangefinderName>
+          <topicName>/mavros/rangefinder/rangefinder</topicName>
+          <rangefinderName>rangefinder_sensor</rangefinderName>
           <frameName>rangefinder</frameName>
           <radiation>INFRARED</radiation>
+          <!-- <fov>0.0524</fov> -->
           <!-- <fov>0.2967</fov> -->
+          <fov>0.1745</fov>
         </plugin>
       </link>
     </model>

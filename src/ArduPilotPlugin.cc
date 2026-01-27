@@ -118,6 +118,21 @@ class Control
 
     this->pid.Init(0.1, 0, 0, 0, 0, 1.0, -1.0);
   }
+  Control(const Control& other)
+    : channel(other.channel),
+      cmd(other.cmd),
+      pid(other.pid),              // penting
+      type(other.type),
+      useForce(other.useForce),
+      jointName(other.jointName),
+      joint(other.joint),
+      multiplier(other.multiplier),
+      offset(other.offset),
+      rotorVelocitySlowdownSim(other.rotorVelocitySlowdownSim),
+      frequencyCutoff(other.frequencyCutoff),
+      samplingRate(other.samplingRate),
+      filter(other.filter)
+  {}
 
   /// \brief copy constructor
   public: Control& operator=(const Control& source) = default;
